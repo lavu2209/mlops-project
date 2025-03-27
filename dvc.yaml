@@ -1,0 +1,24 @@
+stages:
+  preprocess:
+    cmd: python train.py
+    deps:
+      - merged_stock_sentiment_data.csv
+      - train.py
+    outs:
+      - processed_data.pkl
+
+  train:
+    cmd: python model.py
+    deps:
+      - processed_data.pkl
+      - model.py
+    outs:
+      - random_forest_stock_model.pkl
+      - scaler.pkl
+
+  run_app:
+    cmd: python app.py
+    deps:
+      - app.py
+      - random_forest_stock_model.pkl
+      - scaler.pkl
